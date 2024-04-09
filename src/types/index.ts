@@ -10,3 +10,6 @@ export type Patient = {
     date: Date,         //Objeto fecha
     symptoms: string
 }
+
+//Tipo de dato para pacientes pero sin ID, para el primer registro
+export type DraftPatient = Omit<Patient, 'id'>  //Todo Patient menos id
