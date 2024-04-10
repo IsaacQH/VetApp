@@ -3,12 +3,27 @@ import {useForm} from 'react-hook-form'
 import Error from './Error'
 import { usePatientStorage } from '../store/store'
 import type { DraftPatient } from '../types'
+import { useEffect } from 'react'
 
 export default function PatientForm() {
 
-    const {register, handleSubmit, formState:{errors}, reset} = useForm<DraftPatient>()
+    const {register, handleSubmit, setValue, formState:{errors}, reset} = useForm<DraftPatient>() //Extraemos metodos necesarios del useForm
 
-    const addPatient = usePatientStorage((state) => state.addPatient)
+    const addPatient = usePatientStorage((state) => state.addPatient) //Extraemos el addPatient del store
+    const activeId = usePatientStorage((state) => state.activeId) //Extraemos activeId del store
+    const patients = usePatientStorage((state) => state.patients)
+
+    useEffect(()=>{
+        if(activeId){
+            const activePatient = patients.filter((patient) => activeId === patient.id)[0] //Regresa el objeto que tenga el unico id igual, solo el el objeto sin arreglo [0]
+            //Se setean los valores del formulario al indicado para la edición
+            setValue('name', activePatient.name)
+            setValue('caretaker', activePatient.email)
+            setValue('email', activePatient.name)
+            setValue('date', activePatient.date)
+            setValue('symptoms', activePatient.symptoms)
+        }
+    },[activeId]) //Cada que el activeId cambie
 
     const registerPatient = (data:DraftPatient) => {  //Función que procesa handleSubmit
         console.log('ADDING PATIENT')

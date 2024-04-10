@@ -9,6 +9,7 @@ type PatientDetailsProps ={
 const PatientDetails = ({patient}:PatientDetailsProps) => {
 
     const deletePatient = usePatientStorage((state)=> state.deletePatient)
+    const getPatientId = usePatientStorage((state) => state.getPatientById)
 
     return (
         <div className="mx-5 my-10 px-5 py-10 bg-white shadow-md rounded-xl">
@@ -20,10 +21,11 @@ const PatientDetails = ({patient}:PatientDetailsProps) => {
             <PatientDet label = "Día de registro" data = {patient.date.toString()} />
             <PatientDet label = "Síntomas" data = {patient.symptoms} />
 
-            <div className="flex justify-end gap-3 mt-10">
+            <div className="flex flex-col lg:flex-row lg:gap-3 justify-end gap-3 mt-10">
                 <button
                     type="button"
                     className="py-2 px-10 bg-indigo-600 hover:bg-indigo-700 text-white font-bold uppercase rounded-lg"
+                    onClick={()=> getPatientId(patient.id)}
                 >Editar</button>
 
                 <button
