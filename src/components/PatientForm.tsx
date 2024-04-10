@@ -6,13 +6,14 @@ import type { DraftPatient } from '../types'
 
 export default function PatientForm() {
 
-    const {register, handleSubmit, formState:{errors}} = useForm<DraftPatient>()
+    const {register, handleSubmit, formState:{errors}, reset} = useForm<DraftPatient>()
 
     const addPatient = usePatientStorage((state) => state.addPatient)
 
     const registerPatient = (data:DraftPatient) => {  //Función que procesa handleSubmit
         console.log('ADDING PATIENT')
         addPatient(data)   //Llama a la función y añade un paciente
+        reset() //Resetea el form
     }
   
     return (
