@@ -12,6 +12,7 @@ type PatientState = {
     addPatient: (data: DraftPatient) => void  //Fcunción que recibe un dato con DraftPatient y regresa un void
     deletePatient: (id: Patient['id']) => void  //Funcion delete que recibe id y regresa void
     getPatientById: (id:Patient['id']) => void  //Funcion para setear el id
+    updatePatient: (data: DraftPatient) => void  //Recibe data pero sin id, para poder setear el id que queremos
 }
 
 //Función para crear objeto Patient con id
@@ -38,6 +39,12 @@ export const usePatientStorage = create<PatientState>()(devtools((set) => ({   /
         getPatientById: (id) => {
             set(() => ({
                 activeId: id     //Seteanos el activeId con el id que registramos
+            }))
+        },
+        updatePatient:(data) => {
+            set((state)=> ({
+                patients: state.patients.map( patient => patient.id === state.activeId ? {...data, id:state.activeId} : patient),
+                activeId: ''   //Setea a active id a que no exista
             }))
         }
     })

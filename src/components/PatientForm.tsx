@@ -11,15 +11,16 @@ export default function PatientForm() {
 
     const addPatient = usePatientStorage((state) => state.addPatient) //Extraemos el addPatient del store
     const activeId = usePatientStorage((state) => state.activeId) //Extraemos activeId del store
-    const patients = usePatientStorage((state) => state.patients)
+    const patients = usePatientStorage((state) => state.patients) //Extrae state patients
+    const updatePatient = usePatientStorage((state) => state.updatePatient) //Extraemos el addPatient del store
 
     useEffect(()=>{
         if(activeId){
             const activePatient = patients.filter((patient) => activeId === patient.id)[0] //Regresa el objeto que tenga el unico id igual, solo el el objeto sin arreglo [0]
             //Se setean los valores del formulario al indicado para la edición
             setValue('name', activePatient.name)
-            setValue('caretaker', activePatient.email)
-            setValue('email', activePatient.name)
+            setValue('caretaker', activePatient.caretaker)
+            setValue('email', activePatient.email)
             setValue('date', activePatient.date)
             setValue('symptoms', activePatient.symptoms)
         }
@@ -27,7 +28,13 @@ export default function PatientForm() {
 
     const registerPatient = (data:DraftPatient) => {  //Función que procesa handleSubmit
         console.log('ADDING PATIENT')
-        addPatient(data)   //Llama a la función y añade un paciente
+
+        if(activeId){   //Si existe un id activo, estamos editando
+            updatePatient(data)  //Llama funcion de editar
+        } else {
+            addPatient(data)   //Llama a la función y añade un paciente
+        }
+
         reset() //Resetea el form
     }
   

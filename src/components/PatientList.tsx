@@ -5,7 +5,6 @@ import PatientDetails from "./PatientDetails"
 export const PatientList = () => {
 
   const patients = usePatientStorage((state) => state.patients)  //Trae el state pacientes[] del storage
-  console.log(patients)
 
   return (
     <div className="md:w-1/2 lg:w-3/5 md:h-screen overflow-y-scroll">
