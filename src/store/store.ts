@@ -9,6 +9,7 @@ import { DraftPatient, Patient } from "../types"
 type PatientState = {
     patients: Patient[]
     addPatient: (data: DraftPatient) => void  //Fcunción que recibe un dato con DraftPatient y regresa un void
+    deletePatient: (id: Patient['id']) => void  //Funcion delete que recibe id y regresa void
 }
 
 //Función para crear objeto Patient con id
@@ -24,6 +25,11 @@ export const usePatientStorage = create<PatientState>((set) => ({   //Set y get 
         const newPatient = createPatient(data)
         set((state) => ({
             patients: [...state.patients, newPatient]  //Registra el estado pasado como copia y añade un nuevo paciente
+        }))
+    },
+    deletePatient: (id) => { //Pasamos id
+        set((state) => ({  
+            patients: state.patients.filter((patient) => id !== patient.id) //Crea un filter y regresa todos menos el valor eliminado
         }))
     }
 }))
