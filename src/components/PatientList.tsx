@@ -1,4 +1,5 @@
 import { usePatientStorage } from "../store/store"
+import PatientDetails from "./PatientDetails"
 
 
 export const PatientList = () => {
@@ -15,6 +16,14 @@ export const PatientList = () => {
             Administra tus
             <span className="text-indigo-600 font-bold"> pacientes</span>
           </p>
+
+          {patients.map((patient)=>(
+            <PatientDetails
+              key={patient.id}
+              patient={patient}
+            />
+          ))}
+
         </>
       ) : (
         <>
